@@ -1,0 +1,124 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>The source code of Forrester's World Dynamics</title>
+</head>
+<body>
+
+<h1>The source code of Forrester's World Dynamics</h1>
+
+<p>In
+1971, <a href="http://en.wikipedia.org/wiki/Jay_Wright_Forrester">Jay
+Wright Forrester</a> published <i>World Dynamics</i> in which he uses
+a <a href="http://en.wikipedia.org/wiki/System_dynamics">System
+Dynamics</a> approach to study the interaction between the world's
+population, the natural resources, capital investment, and the level
+of pollution.</p>
+
+<p>I couldn't find any useable implementation of Forrester's model so
+I set out to rewrite it in C++ and Javascript. The code is licensed
+under the revised BSD license. The download links are below.</p>
+
+<b>Source code</b>: <a href="WorldDynamics.js">javascript</a>, <a href="WorldDynamics.cpp">C++</a>.<br/><br/>
+
+<h2>Book scenarios</h2>
+
+<p>The links below show the results of the World Dynamics model for
+the scenarios discussed by Forrester.</p>
+
+<p>All the results are calculated dynamically in javascript using the
+code file above. The graphs are plotted with
+the <a href="http://processingjs.org/">Processing.js</a> library.</p>
+
+
+<ul>
+
+<li><a href="Scenario1.html">Main scenario</a>: This is Forrester's
+default scenario on which most of the discussion in the book is based.
+
+<li><a href="Scenario2.html">Pollution crisis</a>: In the year 1970
+the usage rate of natural resources is reduced to 25% of the original
+rate. As a result, the pollution level of the model grows critically.
+
+<li><a href="Scenario3.html">Crowding</a>: The usage rate of natural
+resources is further reduced to zero in 1970 and the pollution normal
+is set to 10% of it's original value.
+
+<li><a href="Scenario4.html">Food shortage</a>: In the previous
+scenario, the "death rate from crowding" and "birth rate from
+crowding" multipliers are set to 1 for crowding ratios above 1.
+
+<li>Increased capital-investment generation: TODO 
+
+<li>Reduced birth rate: TODO 
+
+<li>Less pollution: TODO 
+
+<li>Higher agricultural productivity: TODO 
+
+<li>Combination programs: TODO 
+
+</ul>
+
+
+<h2>Usage</h2>
+
+<p>In Javascript, you should create a WorldDynamics object and call
+the update() method to change the internal state of the model. All the
+state and intermediate variables are accessible as fields of the
+WorldDynamics object. The following code snippet should make the usage very clear.</p>
+
+<p>The use of the C++ version is very similar. The source code
+contains a main() function that serves as an example.</p>
+
+<p>The code of the scenario pages above can also be used as an
+example.</p>
+
+<pre>
+function runScenario() 
+{    
+        // Create a new WorldDynamics object
+        var worlddynamics = new WorldDynamics();
+        
+        var startDate = 1900; // Start in the year 1900
+        var endDate = 2100;   // End in the year 2100
+        var dt = 1/12; // update every month
+
+        // Output the initial state, before updating the model.  
+        // Here we look at state variables: the population, the amount of
+        // natural resources, the amount of capital investment, and
+        // the pollution level. We also output the quality of life measure.
+        // Other calculated, intermediate values are available. For the
+        // complete list, please check the source code. 
+        output(startDate);
+        output(worlddynamics.population);
+        output(worlddynamics.naturalResources);
+        output(worlddynamics.capitalInvestment);
+        output(worlddynamics.pollution);
+        output(worlddynamics.qualityOfLife);
+
+        // Run the model
+        for (var date = startDate; date <= endDate; date += dt) {
+                
+                // Update the state.                                           
+                worlddynamics.update(date, dt);
+
+                // Output the new state.  
+                output(date);
+                output(worlddynamics.population);
+                output(worlddynamics.naturalResources);
+                output(worlddynamics.capitalInvestment);
+                output(worlddynamics.pollution);
+                output(worlddynamics.qualityOfLife);
+        }
+}
+</pre>
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+ 
+</body>
+</html>

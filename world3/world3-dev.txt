@@ -1,0 +1,525 @@
+@ agr_inp_99(t) = agr_inp_99(t - dt) + (chg_agr_inp_99) * dt
+@ INIT agr_inp_99 = 5e9
+@ INFLOWS:
+@ chg_agr_inp_99 = (current_agr_inp_98-agr_inp_99)/s_avg_life_agr_inp_100
+
+@ arable_land_85(t) = arable_land_85(t - dt) + (land_devel_rt_96 - land_rem_urb_ind_use_119 - land_erosion_rt_116) * dt
+@ INIT arable_land_85 = .9e9
+@ INFLOWS:
+@ land_devel_rt_96 = tot_agric_invest_92*fr_inp_al_land_dev_108/dev_cost_per_hect_97
+@ OUTFLOWS:
+@ land_rem_urb_ind_use_119 = (urb_ind_land_req_118-urban_ind_land_120)/urb_ind_land_dev_time_119
+@ land_erosion_rt_116 = arable_land_85/avg_life_land_112
+
+
+@ industrial_capital_52(t) = industrial_capital_52(t - dt) + (ind_cap_invest_55 - ind_cap_deprec_53) * dt
+@ INIT industrial_capital_52 = 2.1E11
+@ INFLOWS:
+@ ind_cap_invest_55 = fioa_ind_56*industrial_output_50
+@ OUTFLOWS:
+@ ind_cap_deprec_53 = industrial_capital_52/s_avg_life_ind_cap_54
+
+
+labor_util_fr_del_82(t) = labor_util_fr_del_82(t - dt) + (chg_lab_util_fr_del_82) * dt
+INIT labor_util_fr_del_82 = 1
+INFLOWS:
+chg_lab_util_fr_del_82 = (labor_util_fr_81-labor_util_fr_del_82)/labor_util_fr_del_time_82
+
+@ land_fertility_121(t) = land_fertility_121(t - dt) + (land_fert_regen_124 - land_fert_degr_123) * dt
+@ INIT land_fertility_121 = 600
+@ INFLOWS:
+@ land_fert_regen_124 = (inherent_land_fert_124-land_fertility_121)/land_fert_regen_time_125
+@ OUTFLOWS:
+@ land_fert_degr_123 = land_fertility_121*land_fert_degr_rt_122
+
+@ nr_resources_129(t) = nr_resources_129(t - dt) + (- nr_res_use_rate_130) * dt
+@ INIT nr_resources_129 = 1e12
+@ OUTFLOWS:
+@ nr_res_use_rate_130 = population_1*pc_res_use_mlt_132*s_nr_res_use_fact_131
+
+perc_food_ratio_128(t) = perc_food_ratio_128(t - dt) + (chg_perc_food_ratio) * dt
+INIT perc_food_ratio_128 = 1
+INFLOWS:
+chg_perc_food_ratio = (food_ratio_127-perc_food_ratio_128)/food_short_perc_del_128
+
+@ pers_pollution_142(t) = pers_pollution_142(t - dt) + (ppoll_appear_rt_141 - ppoll_assim_rt_144) * dt
+@ INIT pers_pollution_142 = 2.5e7
+@ INFLOWS:
+@ ppoll_appear_rt_141 = SMTH3(ppoll_gen_rt_137,ppoll_trans_del_141)
+@ OUTFLOWS:
+@ ppoll_assim_rt_144 = pers_pollution_142/(assim_half_life_146*1.4)
+
+@ pop_0_to_14_2(t) = pop_0_to_14_2(t - dt) + (births_30 - matur_14_to_15_5 - deaths_0_to_14_3) * dt
+@ INIT pop_0_to_14_2 = 65E7
+@ INFLOWS:
+@ births_30 = IF ( TIME > t_pop_equil_time_30) THEN deaths_17 ELSE (total_fertility_32*pop_15_to_44_6*0.5/reproductive_lifetime_30)
+@ OUTFLOWS:
+@ matur_14_to_15_5 = pop_0_to_14_2*(1-mortal_0_to_14_4)/15
+@ deaths_0_to_14_3 = pop_0_to_14_2*mortal_0_to_14_4
+
+@ pop_15_to_44_6(t) = pop_15_to_44_6(t - dt) + (matur_14_to_15_5 - matur_44_to_45_9 - deaths_15_to_44_7) * dt
+@ INIT pop_15_to_44_6 = 70E7
+@ INFLOWS:
+@ matur_14_to_15_5 = pop_0_to_14_2*(1-mortal_0_to_14_4)/15
+@ OUTFLOWS:
+@ matur_44_to_45_9 = pop_15_to_44_6*(1-mortal_15_to_44_8)/30
+@ deaths_15_to_44_7 = pop_15_to_44_6*mortal_15_to_44_8
+
+@ pop_45_to_64_10(t) = pop_45_to_64_10(t - dt) + (matur_44_to_45_9 - matur_64_to_65_13 - deaths_45_to_64_11) * dt
+@ INIT pop_45_to_64_10 = 19E7
+@ INFLOWS:
+@ matur_44_to_45_9 = pop_15_to_44_6*(1-mortal_15_to_44_8)/30
+@ OUTFLOWS:
+@ matur_64_to_65_13 = pop_45_to_64_10*(1-mortal_45_to_64_12)/20
+@ deaths_45_to_64_11 = pop_45_to_64_10*mortal_45_to_64_12
+
+@ pop_65_plus_14(t) = pop_65_plus_14(t - dt) + (matur_64_to_65_13 - deaths_65_plus_15) * dt
+@ INIT pop_65_plus_14 = 6E7
+@ INFLOWS:
+@ matur_64_to_65_13 = pop_45_to_64_10*(1-mortal_45_to_64_12)/20
+@ OUTFLOWS:
+@ deaths_65_plus_15 = pop_65_plus_14*mortal_65_plus_16
+
+
+@ pot_arable_land_86(t) = pot_arable_land_86(t - dt) + (- land_devel_rt_96) * dt
+@ INIT pot_arable_land_86 = 2.3e9
+@ OUTFLOWS:
+@ land_devel_rt_96 = tot_agric_invest_92*fr_inp_al_land_dev_108/dev_cost_per_hect_97
+
+@ ppoll_tech_PTD(t) = ppoll_tech_PTD(t - dt) + (ppoll_tech_chg_rt_PTDR) * dt
+@ INIT ppoll_tech_PTD = 1
+@ INFLOWS:
+@ ppoll_tech_chg_rt_PTDR = if (time > t_policy_year_150) then p_ppoll_tech_chg_mlt_POLGFM*ppoll_tech_PTD else 0
+
+@ res_tech_NRTD(t) = res_tech_NRTD(t - dt) + (res_tech_chg_rt_NRATE) * dt
+@ INIT res_tech_NRTD = 1
+@ INFLOWS:
+@ res_tech_chg_rt_NRATE = if (time > t_policy_year_150) then p_res_tech_chg_mlt_NRCM*res_tech_NRTD else 0
+
+
+@ service_capital_67(t) = service_capital_67(t - dt) + (serv_cap_invest_66 - serv_cap_deprec_68) * dt
+@ INIT service_capital_67 = 1.44E11
+@ INFLOWS:
+@ serv_cap_invest_66 = industrial_output_50*s_fioa_serv_63
+@ OUTFLOWS:
+@ serv_cap_deprec_68 = service_capital_67/s_avg_life_serv_cap_69
+
+@ urban_ind_land_120(t) = urban_ind_land_120(t - dt) + (land_rem_urb_ind_use_119) * dt
+@ INIT urban_ind_land_120 = 8.2e6
+@ INFLOWS:
+@ land_rem_urb_ind_use_119 = (urb_ind_land_req_118-urban_ind_land_120)/urb_ind_land_dev_time_119
+
+@ yield_tech_LYTD(t) = yield_tech_LYTD(t - dt) + (yield_tech_chg_rt_LYTDR) * dt
+@ INIT yield_tech_LYTD = 1
+@ INFLOWS:
+@ yield_tech_chg_rt_LYTDR = if (time > t_policy_year_150) then p_yield_tech_chg_mlt_LYCM*yield_tech_LYTD else 0
+
+Absorption_Land_in_Gha = ppoll_gen_rt_137*Gha_per_unit_of_pollution
+
+@ agr_inp_per_hect_101 = agr_inp_99*(1-p_fr_inp_for_land_maint_126)/arable_land_85
+
+@ agr_mtl_toxic_index_140 = 1
+
+Arable_Land_in_Gha = arable_land_85/1e9
+
+assim_half_life_146 = assim_half_life_1970_146*assim_half_life_mlt_145
+
+@ assim_half_life_1970_146 = 1.5
+
+@ assim_half_life_mlt_145 = GRAPH(ppoll_index_143)
+@ (1.00, 1.00), (251, 11.0), (501, 21.0), (751, 31.0), (1001, 41.0)
+
+@ avg_ind_out_pc_43 = SMTH1(ind_out_pc_49,income_expect_avg_time_43)
+
+@ avg_life_land_112 = avg_life_land_norm_112*s_land_life_mlt_yield_113
+
+avg_life_land_norm_112 = 1000
+
+birth_rt_31 = 1000*births_30/population_1
+
+capacity_util_fr_83 = GRAPH(labor_util_fr_del_82)
+(1.00, 1.00), (3.00, 0.9), (5.00, 0.7), (7.00, 0.3), (9.00, 0.1), (11.0, 0.1)
+
+@ compl_mlt_perc_lifet_36 = GRAPH(perc_life_expectancy_37)
+@ (0.00, 3.00), (10.0, 2.10), (20.0, 1.60), (30.0, 1.40), (40.0, 1.30), (50.0, 1.20), (60.0, 1.10), (70.0, 1.05), (80.0, 1.00)
+
+cons_ind_out = industrial_output_50*s_fioa_cons_57
+
+cons_ind_out_pc = cons_ind_out/population_1
+
+@ crowd_mult_ind_27 = GRAPH(ind_out_pc_49)
+@ (0.00, 0.5), (200, 0.05), (400, -0.1), (600, -0.08), (800, -0.02), (1000, 0.05), (1200, 0.1), (1400, 0.15), (1600, 0.2)
+
+@ current_agr_inp_98 = tot_agric_invest_92*(1-fr_inp_al_land_dev_108)
+
+@ deaths_17 = deaths_0_to_14_3+deaths_15_to_44_7+deaths_45_to_64_11+deaths_65_plus_15
+
+death_rate_18 = 1000*deaths_17/population_1
+
+@ del_ind_out_pc_40 = SMTH3(ind_out_pc_49,social_adj_del_40)
+
+@ des_compl_fam_size_38 = if ( time > t_zero_pop_grow_time_38) then 2.0 else (des_compl_fam_size_norm_38*fam_resp_to_soc_norm_41*soc_fam_size_norm_39)
+@ des_compl_fam_size_norm_38 = 3.8
+
+@ des_food_ratio_DFR = 2
+
+@ des_ppoll_index_DPOLX = 1.2
+
+@ des_res_use_rt_DNRUR = 4.8e9
+
+@ des_tot_fert_35 = des_compl_fam_size_38*compl_mlt_perc_lifet_36
+
+@ dev_cost_per_hect_97 = GRAPH(pot_arable_land_86/pot_arable_land_tot_84)
+(0.00, 100000), (0.1, 7400), (0.2, 5200), (0.3, 3500), (0.4, 2400), (0.5, 1500), (0.6, 750), (0.7, 300), (0.8, 150), (0.9, 75.0), (1.00, 50.0)
+
+Education_Index = GRAPH(GDP_per_capita_2)
+(0.00, 0.00), (1000, 0.81), (2000, 0.88), (3000, 0.92), (4000, 0.95), (5000, 0.98), (6000, 0.99), (7000, 1.00)
+
+eff_hlth_serv_pc_22 = SMTH1(hlth_serv_al_pc_21,hlth_serv_impact_del_22)
+
+@ fam_income_expect_42 = (ind_out_pc_49-avg_ind_out_pc_43)/avg_ind_out_pc_43
+
+@ fam_resp_to_soc_norm_41 = GRAPH(fam_income_expect_42)
+@ (-0.2, 0.5), (-0.1, 0.6), (0.00, 0.7), (0.1, 0.85), (0.2, 1.00)
+
+@ fecundity_mult_34 = GRAPH(life_expectancy_19)
+@ (0.00, 0.00), (10.0, 0.2), (20.0, 0.4), (30.0, 0.6), (40.0, 0.7), (50.0, 0.75), (60.0, 0.79), (70.0, 0.84), (80.0, 0.87)
+
+@ fert_cont_al_pc_47 = fr_serv_al_fert_cont_48*serv_out_pc_71
+
+@ fert_cont_eff_45 = if (time > t_fert_cont_eff_time_45) then 1 else fert_cont_eff_table_45
+
+@ fert_cont_eff_table_45 = GRAPH(fert_cont_facil_pc_46)
+@ (0.00, 0.75), (0.5, 0.85), (1.00, 0.9), (1.50, 0.95), (2.00, 0.98), (2.50, 0.99), (3.00, 1.00)
+
+@ fert_cont_facil_pc_46 = SMTH3(fert_cont_al_pc_47,hlth_serv_impact_del_22)
+
+@ fioa_ind_56 = (1-s_fioa_agr_93-s_fioa_serv_63-s_fioa_cons_57)
+
+food_87 = land_yield_103*arable_land_85*land_fr_harvested_87*(1-processing_loss_87)
+
+@ food_pc__88 = food_87/population_1
+
+@ food_ratio_127 = food_pc__88/subsist_food_pc_127
+
+@ food_short_perc_del_128 = 2
+@ frac_res_pers_mtl_139 = .02
+@ fr_agr_inp_pers_mtl_140 = .001
+
+@ fr_inp_al_land_dev_108 = GRAPH(marg_prod_land_dev_109/marg_prod_agr_inp_110)
+@ (0.00, 0.00), (0.25, 0.05), (0.5, 0.15), (0.75, 0.3), (1.00, 0.5), (1.25, 0.7), (1.50, 0.85), (1.75, 0.95), (2.00, 1.00)
+
+@ fr_pop_urban_26 = GRAPH(population_1)
+@ (0.00, 0.00), (2e+009, 0.2), (4e+009, 0.4), (6e+009, 0.5), (8e+009, 0.58), (1e+010, 0.65), (1.2e+010, 0.72), (1.4e+010, 0.78), (1.6e+010, 0.8)
+
+@ fr_serv_al_fert_cont_48 = GRAPH(need_for_fert_cont_44)
+@ (0.00, 0.00), (2.00, 0.005), (4.00, 0.015), (6.00, 0.025), (8.00, 0.03), (10.0, 0.035)
+
+GDP_Index = (LOG10(GDP_per_capita_2)-LOG10(24))/(LOG10(9508)-LOG10(24))
+GDP_per_capita_2 = GRAPH(ind_out_pc_49)
+(0.00, 120), (200, 600), (400, 1200), (600, 1800), (800, 2500), (1000, 3200)
+Gha_per_unit_of_pollution = 4/1e9
+HEF_Human_Ecological_Footprint = (Arable_Land_in_Gha+Urban_Land_in_Gha+Absorption_Land_in_Gha)/1.91
+Histpop = GRAPH(TIME)
+(1900, 1.59), (1920, 1.81), (1940, 2.25), (1960, 3.00), (1980, 0.00), (2000, 0.00), (2020, 0.00), (2040, 0.00), (2060, 0.00), (2080, 0.00), (2100, 0.00)
+
+@ hlth_serv_al_pc_21 = GRAPH(serv_out_pc_71)
+@ (0.00, 0.00), (250, 20.0), (500, 50.0), (750, 95.0), (1000, 140), (1250, 175), (1500, 200), (1750, 220), (2000, 230)
+
+@ hlth_serv_impact_del_22 = 20
+
+HWI_Human_Welfare_Index = (Life_Expectancy_Index+Education_Index+GDP_Index)/3
+
+@ income_expect_avg_time_43 = 3
+
+@ industrial_output_50 = industrial_capital_52*(1-s_fr_cap_al_obt_res_134)*capacity_util_fr_83/s_ind_cap_out_ratio_51
+
+@ ind_cap_out_ratio_2_ICOR2T = GRAPH(s_nr_res_use_fact_131)
+@ (0.00, 3.75), (0.1, 3.60), (0.2, 3.47), (0.3, 3.36), (0.4, 3.25), (0.5, 3.16), (0.6, 3.10), (0.7, 3.06), (0.8, 3.02), (0.9, 3.01), (1.00, 3.00)
+
+@ ind_mtl_emiss_fact_139 = .1
+@ ind_mtl_toxic_index_139 = 10
+@ ind_out_in_1970_107 = 7.9e11
+
+@ ind_out_pc_49 = industrial_output_50/population_1
+
+@ ind_out_pc_des_59 = 400
+@ inherent_land_fert_124 = 600
+
+@ jobs_73 = pot_jobs_ind_sector_74+pot_jobs_agr_sector_78+pot_jobs_in_serv_sector_76
+
+@ jobs_per_hect_79 = GRAPH(agr_inp_per_hect_101)
+@ (2.00, 2.00), (6.00, 0.5), (10.0, 0.4), (14.0, 0.3), (18.0, 0.27), (22.0, 0.24), (26.0, 0.2), (30.0, 0.2)
+
+@ jobs_per_ind_cap_unit_75 = GRAPH(ind_out_pc_49)
+@ (50.0, 0.00037), (200, 0.00018), (350, 0.00012), (500, 9e-005), (650, 7e-005), (800, 6e-005)
+
+jobs_per_serv_cap_unit_77 = GRAPH(serv_out_pc_71)
+(50.0, 0.0011), (200, 0.0006), (350, 0.00035), (500, 0.0002), (650, 0.00015), (800, 0.00015)
+
+@ labor_force_80 = (pop_15_to_44_6+pop_45_to_64_10)*labor_force_partic_80
+
+
+@ labor_force_partic_80 = .75
+
+@ labor_util_fr_81 = jobs_73/labor_force_80
+
+@ labor_util_fr_del_time_82 = 2
+
+@ land_fert_degr_rt_122 = GRAPH(ppoll_index_143)
+@ (0.00, 0.00), (10.0, 0.1), (20.0, 0.3), (30.0, 0.5)
+
+@ land_fert_regen_time_125 = GRAPH(p_fr_inp_for_land_maint_126)
+@ (0.00, 20.0), (0.02, 13.0), (0.04, 8.00), (0.06, 4.00), (0.08, 2.00), (0.1, 2.00)
+
+land_fr_cult_84 = arable_land_85/pot_arable_land_tot_84
+
+@ land_fr_harvested_87 = .7
+
+@ land_yield_103 = s_land_yield_fact_104*land_fertility_121*land_yield_mlt_cap_102*s_yield_mlt_air_poll_105
+
+@ land_yield_mlt_cap_102 = GRAPH(agr_inp_per_hect_101)
+@ (0.00, 1.00), (40.0, 3.00), (80.0, 4.50), (120, 5.00), (160, 5.30), (200, 5.60), (240, 5.90), (280, 6.10), (320, 6.35), (360, 6.60), (400, 6.90), (440, 7.20), (480, 7.40), (520, 7.60), (560, 7.80), (600, 8.00), (640, 8.20), (680, 8.40), (720, 8.60), (760, 8.80), (800, 9.00), (840, 9.20), (880, 9.40), (920, 9.60), (960, 9.80), (1000, 10.0)
+
+@ lifet_mlt_crowd_28 = 1-(crowd_mult_ind_27*fr_pop_urban_26)
+
+@ lifet_mlt_food_20 = GRAPH(food_pc__88/subsist_food_pc_127)
+@ (0.00, 0.00), (1.00, 1.00), (2.00, 1.43), (3.00, 1.50), (4.00, 1.50), (5.00, 1.50)
+
+@ lifet_mlt_hlth_serv_1_24 = GRAPH(eff_hlth_serv_pc_22)
+@ (0.00, 1.00), (20.0, 1.10), (40.0, 1.40), (60.0, 1.60), (80.0, 1.70), (100, 1.80)
+
+@ lifet_mlt_hlth_serv_2_25 = GRAPH(eff_hlth_serv_pc_22)
+@ (0.00, 1.00), (20.0, 1.50), (40.0, 1.90), (60.0, 2.00), (80.0, 2.00), (100, 2.00)
+
+@ lifet_mlt_ppoll_29 = GRAPH(ppoll_index_143)
+@ (0.00, 1.00), (10.0, 0.99), (20.0, 0.97), (30.0, 0.95), (40.0, 0.9), (50.0, 0.85), (60.0, 0.75), (70.0, 0.65), (80.0, 0.55), (90.0, 0.4), (100, 0.2)
+
+@ lifet_mult_hlth_serv_23 = IF (time > 1940) then lifet_mlt_hlth_serv_2_25 else lifet_mlt_hlth_serv_1_24
+
+@ lifet_perc_del_37 = 20
+
+@ life_expectancy_19 = life_expect_norm_19*lifet_mlt_food_20*lifet_mult_hlth_serv_23*lifet_mlt_ppoll_29*lifet_mlt_crowd_28
+
+Life_Expectancy_Index = GRAPH(life_expectancy_19)
+(25.0, 0.00), (35.0, 0.16), (45.0, 0.33), (55.0, 0.5), (65.0, 0.67), (75.0, 0.84), (85.0, 1.00)
+
+@ life_expect_norm_19 = 28
+
+@ marg_land_yield_mlt_cap_111 = GRAPH(agr_inp_per_hect_101)
+@ (0.00, 0.075), (40.0, 0.03), (80.0, 0.015), (120, 0.011), (160, 0.009), (200, 0.008), (240, 0.007), (280, 0.006), (320, 0.005), (360, 0.005), (400, 0.005), (440, 0.005), (480, 0.005), (520, 0.005), (560, 0.005), (600, 0.005)
+
+@ marg_prod_agr_inp_110 = s_avg_life_agr_inp_100*land_yield_103*marg_land_yield_mlt_cap_111/land_yield_mlt_cap_102
+
+@ marg_prod_land_dev_109 = land_yield_103/(dev_cost_per_hect_97*social_discount_109)
+
+@ max_tot_fert_33 = max_tot_fert_norm_33*fecundity_mult_34
+@ max_tot_fert_norm_33 = 12
+
+@ mortal_0_to_14_4 = GRAPH(life_expectancy_19)
+@ (20.0, 0.0567), (30.0, 0.0366), (40.0, 0.0243), (50.0, 0.0155), (60.0, 0.0082), (70.0, 0.0023), (80.0, 0.001)
+
+@ mortal_15_to_44_8 = GRAPH(life_expectancy_19)
+@ (20.0, 0.0266), (30.0, 0.0171), (40.0, 0.011), (50.0, 0.0065), (60.0, 0.004), (70.0, 0.0016), (80.0, 0.0008)
+
+@ mortal_45_to_64_12 = GRAPH(life_expectancy_19)
+@ (20.0, 0.0562), (30.0, 0.0373), (40.0, 0.0252), (50.0, 0.0171), (60.0, 0.0118), (70.0, 0.0083), (80.0, 0.006)
+
+@ mortal_65_plus_16 = GRAPH(life_expectancy_19)
+@ (20.0, 0.13), (30.0, 0.11), (40.0, 0.09), (50.0, 0.07), (60.0, 0.06), (70.0, 0.05), (80.0, 0.04)
+
+need_for_fert_cont_44 = (max_tot_fert_33/des_tot_fert_35)-1
+
+
+@ nr_res_fr_remain_133 = nr_resources_129/init(nr_resources_129)
+
+@ pc_res_use_mlt_132 = GRAPH(ind_out_pc_49)
+@ (0.00, 0.00), (200, 0.85), (400, 2.60), (600, 3.40), (800, 3.80), (1000, 4.10), (1200, 4.40), (1400, 4.70), (1600, 5.00)
+
+@ perc_life_expectancy_37 = SMTH3(life_expectancy_19,lifet_perc_del_37)
+
+poll_intens_ind = ppoll_gen_ind_139*s_ppoll_gen_fact_138/industrial_output_50
+
+@ population_1 = pop_0_to_14_2+pop_15_to_44_6+pop_45_to_64_10+pop_65_plus_14
+
+@ pot_arable_land_tot_84 = 3.2e9
+
+@ pot_jobs_agr_sector_78 = jobs_per_hect_79*arable_land_85
+
+@ pot_jobs_ind_sector_74 = industrial_capital_52*jobs_per_ind_cap_unit_75
+
+@ pot_jobs_in_serv_sector_76 = service_capital_67*jobs_per_serv_cap_unit_77
+
+ppoll_gen_agr_140 = agr_inp_per_hect_101*arable_land_85*fr_agr_inp_pers_mtl_140*agr_mtl_toxic_index_140
+ppoll_gen_ind_139 = pc_res_use_mlt_132*population_1*frac_res_pers_mtl_139*ind_mtl_emiss_fact_139*ind_mtl_toxic_index_139
+
+@ ppoll_gen_rt_137 = (ppoll_gen_ind_139+ppoll_gen_agr_140)*s_ppoll_gen_fact_138
+
+@ ppoll_index_143 = pers_pollution_142/ppoll_in_1970_143
+
+@ ppoll_in_1970_143 = 1.36e8
+
+@ ppoll_tech_mult_icor_COPM = GRAPH(s_ppoll_gen_fact_138)
+@ (0.00, 1.25), (0.1, 1.20), (0.2, 1.15), (0.3, 1.11), (0.4, 1.08), (0.5, 1.05), (0.6, 1.03), (0.7, 1.02), (0.8, 1.01), (0.9, 1.00), (1.00, 1.00)
+
+@ ppoll_trans_del_141 = 20
+
+@ processing_loss_87 = .1
+
+@ p_avg_life_agr_inp_1_100 = 2
+@ p_avg_life_agr_inp_2_100 = 2
+@ p_avg_life_ind_cap_1_54 = 14
+@ p_avg_life_ind_cap_2_54 = 14
+@ p_avg_life_serv_cap_1_69 = 20
+@ p_avg_life_serv_cap_2_69 = 20
+@ p_fioa_cons_const_1_58 = .43
+@ p_fioa_cons_const_2_58 = .43
+
+@ p_fioa_cons_var_59 = GRAPH(ind_out_pc_49/ind_out_pc_des_59)
+@ (0.00, 0.3), (0.2, 0.32), (0.4, 0.34), (0.6, 0.36), (0.8, 0.38), (1.00, 0.43), (1.20, 0.73), (1.40, 0.77), (1.60, 0.81), (1.80, 0.82), (2.00, 0.83)
+
+@ p_fr_cap_al_obt_res_1_135 = GRAPH(nr_res_fr_remain_133)
+@ (0.00, 1.00), (0.1, 0.9), (0.2, 0.7), (0.3, 0.5), (0.4, 0.2), (0.5, 0.1), (0.6, 0.05), (0.7, 0.05), (0.8, 0.05), (0.9, 0.05), (1.00, 0.05)
+
+@ p_fr_cap_al_obt_res_2_136 = GRAPH(nr_res_fr_remain_133)
+@ (0.00, 1.00), (0.1, 0.2), (0.2, 0.1), (0.3, 0.05), (0.4, 0.05), (0.5, 0.05), (0.6, 0.05), (0.7, 0.05), (0.8, 0.05), (0.9, 0.05), (1.00, 0.05)
+
+@ p_fr_inp_for_land_maint_126 = GRAPH(perc_food_ratio_128)
+@ (0.00, 0.00), (1.00, 0.04), (2.00, 0.07), (3.00, 0.09), (4.00, 0.1)
+
+@ p_fr_io_al_agr_1_94 = GRAPH(food_pc__88/s_indic_food_pc_89)
+@ (0.00, 0.4), (0.5, 0.2), (1.00, 0.1), (1.50, 0.025), (2.00, 0.00), (2.50, 0.00)
+
+@ p_fr_io_al_agr_2_95 = GRAPH(food_pc__88/s_indic_food_pc_89)
+@ (0.00, 0.4), (0.5, 0.2), (1.00, 0.1), (1.50, 0.025), (2.00, 0.00), (2.50, 0.00)
+
+@ p_fr_io_al_serv_1_64 = GRAPH(serv_out_pc_71/s_indic_serv_pc_60)
+@ (0.00, 0.3), (0.5, 0.2), (1.00, 0.1), (1.50, 0.05), (2.00, 0.00)
+
+@ p_fr_io_al_serv_2_65 = GRAPH(serv_out_pc_71/s_indic_serv_pc_60)
+@ (0.00, 0.3), (0.5, 0.2), (1.00, 0.1), (1.50, 0.05), (2.00, 0.00)
+
+@ p_indic_food_pc_1_90 = GRAPH(ind_out_pc_49)
+@ (0.00, 230), (200, 480), (400, 690), (600, 850), (800, 970), (1000, 1070), (1200, 1150), (1400, 1210), (1600, 1250)
+@ p_indic_food_pc_2_91 = GRAPH(ind_out_pc_49)
+@ (0.00, 230), (200, 480), (400, 690), (600, 850), (800, 970), (1000, 1070), (1200, 1150), (1400, 1210), (1600, 1250)
+
+@ p_indic_serv_pc_1_61 = GRAPH(ind_out_pc_49)
+@ (0.00, 40.0), (200, 300), (400, 640), (600, 1000), (800, 1220), (1000, 1450), (1200, 1650), (1400, 1800), (1600, 2000)
+
+@ p_indic_serv_pc_2_62 = GRAPH(ind_out_pc_49)
+@ (0.00, 40.0), (200, 300), (400, 640), (600, 1000), (800, 1220), (1000, 1450), (1200, 1650), (1400, 1800), (1600, 2000)
+
+p_ind_cap_out_ratio_1_51 = 3
+p_ind_cap_out_ratio_2_51 = ind_cap_out_ratio_2_ICOR2T*yield_tech_mult_icor_COYM*ppoll_tech_mult_icor_COPM
+
+@ p_land_life_mlt_yield_1_114 = GRAPH(land_yield_103/inherent_land_fert_124)
+@ (0.00, 1.20), (1.00, 1.00), (2.00, 0.63), (3.00, 0.36), (4.00, 0.16), (5.00, 0.055), (6.00, 0.04), (7.00, 0.025), (8.00, 0.015), (9.00, 0.01)
+
+@ p_land_life_mlt_yield_2_115 = GRAPH(land_yield_103/inherent_land_fert_124)
+@ (0.00, 1.20), (1.00, 1.00), (2.00, 0.63), (3.00, 0.36), (4.00, 0.29), (5.00, 0.26), (6.00, 0.24), (7.00, 0.22), (8.00, 0.21), (9.00, 0.2)
+
+@ p_land_yield_fact_1_104 = 1
+@ p_land_yield_fact_2_104 = SMTH3(yield_tech_LYTD,tech_dev_del_TDD)
+
+@ p_nr_res_use_fact_1_131 = 1
+@ p_nr_res_use_fact_2_131 = SMTH3(res_tech_NRTD,tech_dev_del_TDD)
+
+@ p_ppoll_gen_fact_1_138 = 1
+@ p_ppoll_gen_fact_2_138 = SMTH3(ppoll_tech_PTD,tech_dev_del_TDD)
+
+@ p_ppoll_tech_chg_mlt_POLGFM = GRAPH(1-ppoll_index_143/des_ppoll_index_DPOLX)
+@ (-1.00, 0.00), (0.00, 0.00)
+
+@ p_res_tech_chg_mlt_NRCM = GRAPH(1-nr_res_use_rate_130/des_res_use_rt_DNRUR)
+@ (-1.00, 0.00), (0.00, 0.00)
+
+@ p_serv_cap_out_ratio_1_72 = 1
+@ p_serv_cap_out_ratio_2_72 = 1
+
+@ p_yield_mlt_air_poll_1_106 = GRAPH(industrial_output_50/ind_out_in_1970_107)
+@ (0.00, 1.00), (10.0, 1.00), (20.0, 0.7), (30.0, 0.4)
+
+@ p_yield_mlt_air_poll_2_107 = GRAPH(industrial_output_50/ind_out_in_1970_107)
+@ (0.00, 1.00), (10.0, 1.00), (20.0, 0.98), (30.0, 0.95)
+
+@ p_yield_tech_chg_mlt_LYCM = GRAPH(des_food_ratio_DFR-food_ratio_127)
+@ (0.00, 0.00), (1.00, 0.00)
+
+@ reproductive_lifetime_30 = 30
+
+res_intens = nr_res_use_rate_130/industrial_output_50
+
+@ service_output_70 = (service_capital_67*capacity_util_fr_83)/s_serv_cap_out_ratio_72
+
+@ serv_out_pc_71 = service_output_70/population_1
+
+@ social_adj_del_40 = 20
+
+@ social_discount_109 = .07
+
+@ soc_fam_size_norm_39 = GRAPH(del_ind_out_pc_40)
+@ (0.00, 1.25), (200, 0.94), (400, 0.715), (600, 0.59), (800, 0.5)
+
+@ subsist_food_pc_127 = 230
+
+@ s_avg_life_agr_inp_100 = if (time > t_policy_year_150) then p_avg_life_agr_inp_2_100 else p_avg_life_agr_inp_1_100
+
+@ s_avg_life_ind_cap_54 = if (time > t_policy_year_150) then p_avg_life_ind_cap_2_54 else p_avg_life_ind_cap_1_54
+
+@ s_avg_life_serv_cap_69 = if (time > t_policy_year_150) then p_avg_life_serv_cap_2_69 else p_avg_life_serv_cap_1_69
+
+@ s_fioa_agr_93 = if (time > t_policy_year_150) then p_fr_io_al_agr_2_95 else p_fr_io_al_agr_1_94
+
+@ s_fioa_cons_57 = if (time > t_ind_equil_time_57) then p_fioa_cons_var_59 else s_fioa_cons_const_58
+
+@ s_fioa_cons_const_58 = if (time > t_policy_year_150) then p_fioa_cons_const_2_58 else p_fioa_cons_const_1_58
+
+@ s_fioa_serv_63 = if (time > t_policy_year_150) then p_fr_io_al_serv_2_65 else p_fr_io_al_serv_1_64
+
+@ s_fr_cap_al_obt_res_134 = if (time > t_fcaor_time) then p_fr_cap_al_obt_res_2_136 else p_fr_cap_al_obt_res_1_135
+
+@ s_indic_food_pc_89 = if (time > t_policy_year_150) then p_indic_food_pc_2_91 else p_indic_food_pc_1_90
+
+@ s_indic_serv_pc_60 = if (time > t_policy_year_150) then p_indic_serv_pc_2_62 else p_indic_serv_pc_1_61
+
+@ s_ind_cap_out_ratio_51 = if (time > t_policy_year_150) then p_ind_cap_out_ratio_2_51 else p_ind_cap_out_ratio_1_51
+
+@ s_land_life_mlt_yield_113 = if (time > t_land_life_time) then .95^(time-t_land_life_time)*p_land_life_mlt_yield_1_114 + (1-.95^(time-t_land_life_time))*p_land_life_mlt_yield_2_115 else p_land_life_mlt_yield_1_114
+
+@ s_land_yield_fact_104 = if (time > t_policy_year_150) then p_land_yield_fact_2_104 else p_land_yield_fact_1_104
+
+@ s_nr_res_use_fact_131 = if (time > t_policy_year_150) then p_nr_res_use_fact_2_131 else p_nr_res_use_fact_1_131
+
+@ s_ppoll_gen_fact_138 = if (time > t_policy_year_150) then p_ppoll_gen_fact_2_138 else p_ppoll_gen_fact_1_138
+
+@ s_serv_cap_out_ratio_72 = if (time > t_policy_year_150) then p_serv_cap_out_ratio_2_72 else p_serv_cap_out_ratio_1_72
+
+@ s_yield_mlt_air_poll_105 = if (time > t_air_poll_time) then p_yield_mlt_air_poll_2_107 else p_yield_mlt_air_poll_1_106
+
+@ tech_dev_del_TDD = 20
+
+@ total_fertility_32 = MIN(max_tot_fert_33, (max_tot_fert_33*(1-fert_cont_eff_45)+des_tot_fert_35*fert_cont_eff_45))
+
+@ tot_agric_invest_92 = industrial_output_50*s_fioa_agr_93
+
+@ t_air_poll_time = 4000
+@ t_fcaor_time = 4000
+@ t_fert_cont_eff_time_45 = 4000
+@ t_ind_equil_time_57 = 4000
+@ t_land_life_time = 4000
+@ t_policy_year_150 = 4000
+@ t_pop_equil_time_30 = 4000
+@ t_zero_pop_grow_time_38 = 4000
+
+Urban_Land_in_Gha = urban_ind_land_120/1e9
+
+@ urb_ind_land_dev_time_119 = 10
+
+@ urb_ind_land_pc_117 = GRAPH(ind_out_pc_49)
+@ (0.00, 0.005), (200, 0.008), (400, 0.015), (600, 0.025), (800, 0.04), (1000, 0.055), (1200, 0.07), (1400, 0.08), (1600, 0.09)
+
+@ urb_ind_land_req_118 = urb_ind_land_pc_117*population_1
+
+@ yield_tech_mult_icor_COYM = GRAPH(s_land_yield_fact_104)
+@ (1.00, 1.00), (1.20, 1.05), (1.40, 1.12), (1.60, 1.25), (1.80, 1.35), (2.00, 1.50)

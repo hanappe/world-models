@@ -1,0 +1,195 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>Forrester World Dynamics - Scenario 1</title>
+  <script type='text/javascript' src='WorldDynamics.js'></script>
+  <script type='text/javascript' src='processing.js'></script>
+  <script type='text/javascript' src='init.js'></script>
+                                      
+<script type='text/javascript'>
+
+var timeseries;
+var simulationFinished = false;
+
+function runScenario() 
+{    
+        var worlddynamics = new WorldDynamics();
+        worlddynamics.naturalResourceUsageNormal1 = 0.0;
+        worlddynamics.pollutionNormal1 = 0.1;
+
+        var startDate = 1900; 
+        var endDate = 2300; 
+        var dt = 1; // update every year
+        
+        timeseries = { "labels": ["Population", "Natural Resources", "Capital Investment", "Pollution", "Quality of Life" ], 
+                       
+                       "color": [ "#663300", "#80C31C", "#660099", "#FF7900", "#006699" ],
+
+                       "xmin": 1900,
+                       "xmax": 2300,
+                       
+                       "ymin": [           0,            0,           0,           0, 0 ],
+                       "ymax": [ 10000000000, 1000000000000, 40000000000, 40000000000, 2 ],
+                                
+                       "x": [],
+                       "y": [ [], [], [], [], [] ] };
+        
+
+        for (var date = startDate; date <= endDate; date += dt) {
+                
+                timeseries.x.push(date);
+                timeseries.y[0].push(Math.floor(worlddynamics.population));
+                timeseries.y[1].push(Math.floor(worlddynamics.naturalResources));
+                timeseries.y[2].push(Math.floor(worlddynamics.capitalInvestment));
+                timeseries.y[3].push(Math.floor(worlddynamics.pollution));
+                timeseries.y[4].push(Math.floor(1000*worlddynamics.qualityOfLife)/1000);
+                
+                worlddynamics.update(date, dt);
+        }
+
+        simulationFinished = true;
+
+        buildResultsTable(timeseries);
+}
+
+
+function newTR(table) 
+{
+        var tr = document.createElement("TR");
+        table.tBodies[0].appendChild(tr);
+        return tr;
+}
+
+function newTD(tr, content) 
+{
+        var td = document.createElement("TD");
+        td.appendChild(document.createTextNode(content));
+        tr.appendChild(td);
+        return td;
+}
+
+function buildResultsTable(timeseries) 
+{
+        var tableDiv = document.getElementById('Table');
+        var table = document.createElement("TABLE");
+        tableDiv.appendChild(table);
+        var tbody = document.createElement("TBODY");
+        table.appendChild(tbody);
+
+        var tr = newTR(table);
+        newTD(tr, "Year");
+
+        for (var j = 0; j < timeseries.labels.length; j++) {
+                newTD(tr,  timeseries.labels[j]);
+        }
+
+        for (var i = 0; i < timeseries.x.length; i++) {
+
+                tr = newTR(table);
+
+                newTD(tr, timeseries.x[i]);
+                for (var j = 0; j < timeseries.labels.length; j++) {
+                        newTD(tr, timeseries.y[j][i]);
+                }
+        }
+}
+
+</script>
+</head>
+
+<body onload="runScenario()">
+
+
+<div id="Graph">
+<div style="display:none;"><img src="graph2300.png" id="graph.png"/></div> 
+<script type="application/processing">
+
+graphWidth = 1066.656;
+graphHeight = 400;
+graphOffX = 75;
+graphOffY = 460; // FIXME: this should be 470!!!
+
+PFont fontA = loadFont("Arial");  
+textFont(fontA, 14);  
+
+PImage g;
+
+done = false; 
+                                  
+
+void setup() 
+{  
+  size(1200, 500);  
+  strokeWeight(1);  
+  frameRate(1);  
+  g = loadImage("graph.png");
+}  
+
+void draw() 
+{  
+        if (done) return;
+
+        if (simulationFinished) {
+
+                done = true;
+
+                var xmin = timeseries.xmin;
+                var xmax = timeseries.xmax;
+
+                background(255);
+
+                if (g) image(g, 0, 0);
+
+                smooth();
+
+                for (var j = 0; j < timeseries.labels.length; j++) {
+
+                        var x = timeseries.x[0];
+                        var y = timeseries.y[j][0];
+                        var ymin = timeseries.ymin[j];
+                        var ymax = timeseries.ymax[j];
+
+                        var max = y;
+                        var min = y;
+
+                        var x0 = graphOffX + graphWidth * (x - xmin) / (xmax - xmin);
+                        var y0 = graphOffY - graphHeight * (y - ymin) / (ymax - ymin);
+                        
+                        stroke(color(timeseries.color[j]));
+
+                        for (var i = 1; i < timeseries.x.length; i++) {
+                                
+                                var label = timeseries.labels[j];
+                                x = timeseries.x[i];
+                                y = timeseries.y[j][i];
+                                ymin = timeseries.ymin[j];
+                                ymax = timeseries.ymax[j];
+
+                                if (y > max) max = y;
+                                if (y < min) min = y;
+                                
+                                var x1 = graphOffX + graphWidth * (x - xmin) / (xmax - xmin);
+                                var y1 = graphOffY - graphHeight * (y - ymin) / (ymax - ymin);
+
+                                if ((j == 4) && (i == 1)) {
+                                        // skip value. cheating: there's no initial value for quality of life 
+                                } else {
+                                        line(x0, y0, x1, y1);
+                                }
+
+                                x0 = x1;
+                                y0 = y1;
+                        }
+                }
+        }
+}  
+
+</script>
+<canvas id="navCanvas" width="1200px" height="500px"></canvas>
+</div>
+
+<div id="Table"></div>
+
+</body>
+</html>
+
